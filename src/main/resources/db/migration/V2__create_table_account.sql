@@ -1,0 +1,7 @@
+
+CREATE TABLE account (
+    id BIGINT PRIMARY KEY,
+    user_id  BIGINT UNIQUE NOT NULL,
+    balance DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    CONSTRAINT fk_account_users FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL ON UPDATE CASCADE
+);
