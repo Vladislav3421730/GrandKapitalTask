@@ -2,8 +2,7 @@ package com.example.task.controller;
 
 import com.example.task.dto.error.AppErrorDto;
 import com.example.task.dto.error.FieldErrorDto;
-import com.example.task.exception.LoginFailedException;
-import com.example.task.exception.UserNotFoundException;
+import com.example.task.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -33,8 +32,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new AppErrorDto(loginFailedException.getMessage(),400), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<AppErrorDto> handleUserNotFoundException(UserNotFoundException userNotFoundException) {
-        return new ResponseEntity<>(new AppErrorDto(userNotFoundException.getMessage(),404), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<AppErrorDto> handleUserNotFoundException(EntityNotFoundException entityNotFoundException) {
+        return new ResponseEntity<>(new AppErrorDto(entityNotFoundException.getMessage(),404), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EntityAlreadyExistException.class)
+    public ResponseEntity<AppErrorDto> handleEmailAlreadyExistException(EntityAlreadyExistException entityAlreadyExistException) {
+        return new ResponseEntity<>(new AppErrorDto(entityAlreadyExistException.getMessage(),400), HttpStatus.BAD_REQUEST);
     }
 }

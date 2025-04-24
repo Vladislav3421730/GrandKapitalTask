@@ -34,8 +34,10 @@ public class AuthServiceImpl implements AuthService {
             throw new LoginFailedException("Invalid username or password");
         }
 
-        User userDB = userRepository.findByEmail(user.getEmail()).orElseThrow(() ->
-                new UserNotFoundException(String.format("User with email %s was not found", user.getEmail())));
+        User userDB = userRepository.findByEmail(user.getEmail()).orElseThrow(() -> {
+            log.error("user with email {} was not found", user.getEmail());
+            throw new UserNotFoundException(String.format("User with email %s was not found", user.getEmail()));
+        });
 
         log.info("User {} authenticated successfully", user.getEmail());
         return new JwtResponseDto(jwtAccessTokenUtils.generateAccessToken(userDB, user.getEmail()));

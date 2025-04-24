@@ -4,14 +4,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "email_data")
 @Data
+@NoArgsConstructor
 public class EmailData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_data_id_seq")
+    @SequenceGenerator(name = "email_data_id_seq", sequenceName = "email_data_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -19,8 +22,12 @@ public class EmailData {
     @NotNull(message = "email must not be null")
     private String email;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public EmailData(String email, User user) {
+        this.email = email;
+        this.user = user;
+    }
 }

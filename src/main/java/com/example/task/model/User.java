@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -28,17 +30,14 @@ public class User {
     @Column(name = "date_of_birth", nullable = false)
     @NotNull(message = "birthday must be not null")
     @PastOrPresent(message = "Birthday must be in the past or present")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
-    @Column(nullable = false)
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Account account;
 
-    @Column(nullable = false)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<EmailData> emailData;
 
-    @Column(nullable = false)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<PhoneData> phoneData;
 }

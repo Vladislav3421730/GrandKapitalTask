@@ -29,8 +29,9 @@ public class JwtAccessTokenUtils {
     private static String USER_ID = "userId";
 
     public String generateAccessToken(User user, String email) {
+
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getId());
+        claims.put(USER_ID, user.getId());
 
         Date issuedDate = new Date();
         return Jwts.builder()
@@ -52,7 +53,11 @@ public class JwtAccessTokenUtils {
     }
 
     public Long getUserId(String token) {
-        return getAllClaimsFromToken(token).get("userId", Long.class);
+        return getAllClaimsFromToken(token).get(USER_ID, Long.class);
+    }
+
+    public String getUsername(String token) {
+        return getAllClaimsFromToken(token).getSubject();
     }
 
 

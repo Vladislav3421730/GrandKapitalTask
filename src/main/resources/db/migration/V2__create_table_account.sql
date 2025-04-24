@@ -1,6 +1,11 @@
+CREATE SEQUENCE account_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE CACHE 1;
 
 CREATE TABLE account (
-    id BIGINT PRIMARY KEY,
+    id BIGINT PRIMARY KEY DEFAULT nextval('account_id_seq'),
     user_id  BIGINT UNIQUE NOT NULL,
     balance DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     CONSTRAINT fk_account_users FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL ON UPDATE CASCADE
