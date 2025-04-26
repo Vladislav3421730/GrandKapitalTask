@@ -33,8 +33,8 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/v1/email", "/api/v1/phone").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/users").permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
                         .accessDeniedHandler(customAccessDeniedHandler)

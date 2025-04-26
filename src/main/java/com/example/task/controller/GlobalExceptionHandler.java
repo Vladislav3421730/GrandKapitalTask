@@ -46,4 +46,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<AppErrorDto> handleDeletingException(DeletingException deletingException) {
         return new ResponseEntity<>(new AppErrorDto(deletingException.getMessage(),400), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(TransferException.class)
+    public ResponseEntity<AppErrorDto> handleTransferException(TransferException transferException) {
+        return new ResponseEntity<>(new AppErrorDto(transferException.getMessage(),400), HttpStatus.BAD_REQUEST);
+    }
 }

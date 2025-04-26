@@ -28,9 +28,9 @@ public class BalanceScheduling {
             if (bigDecimal.compareTo(newBalance) < 0) {
                 log.warn("The increased amount {} will be more than 207 percent {} of the initial deposit.", newBalance, bigDecimal);
             } else {
-                log.info("User's balance {} was increased and now {}", user.getName(), user.getAccount().getBalance());
                 user.getAccount().setBalance(newBalance);
                 userRepository.save(user);
+                log.info("User's balance {} was increased and now {}", user.getName(), user.getAccount().getBalance());
             }
 
         });
