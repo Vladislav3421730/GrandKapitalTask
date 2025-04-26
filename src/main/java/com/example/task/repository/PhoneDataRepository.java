@@ -1,7 +1,7 @@
 package com.example.task.repository;
 
-import com.example.task.model.EmailData;
 import com.example.task.model.PhoneData;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

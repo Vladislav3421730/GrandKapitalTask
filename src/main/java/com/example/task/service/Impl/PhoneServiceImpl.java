@@ -14,6 +14,8 @@ import com.example.task.repository.UserRepository;
 import com.example.task.service.PhoneService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,10 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "user", key = "#userId"),
+            @CacheEvict(value = "users", allEntries = true)
+    })
     public void save(Long id, CreatePhoneRequestDto createPhoneRequestDto) {
         User user = userRepository.findById(id).orElseThrow(() -> {
             log.error("User with id {} wasn't found", id);
@@ -52,6 +58,7 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"user", "users"}, allEntries = true)
     public void delete(Long userId, DeletePhoneRequestDto deleteEmailRequestDto) {
 
         String phone = deleteEmailRequestDto.getPhone();
@@ -67,6 +74,10 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "user", key = "#userId"),
+            @CacheEvict(value = "users", allEntries = true)
+    })
     public void replace(Long userId, ReplacePhoneRequestDto replacePhoneRequestDto) {
         String oldPhone = replacePhoneRequestDto.getOldPhone();
         String newPhone = replacePhoneRequestDto.getNewPhone();

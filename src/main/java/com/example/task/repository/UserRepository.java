@@ -2,6 +2,7 @@ package com.example.task.repository;
 
 import com.example.task.model.User;
 import jakarta.persistence.LockModeType;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,12 +19,16 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT u FROM User u WHERE u.id = :id")
-    @EntityGraph(attributePaths = {"account"})
+    @EntityGraph(attributePaths = {"account", "phoneData", "emailData"})
     Optional<User> findByIdForUpdate(@Param("id") Long id);
 
     @Override
     @EntityGraph(attributePaths = {"account", "phoneData", "emailData"})
     List<User> findAll();
+
+    @Override
+    @EntityGraph(attributePaths = {"account", "phoneData", "emailData"})
+    Optional<User> findById(Long id);
 
     @Override
     @EntityGraph(attributePaths = {"account", "phoneData", "emailData"})

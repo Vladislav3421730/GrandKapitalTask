@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     @Operation(summary = "User login", description = "Authenticates user and returns a Access and Refresh tokens.")
@@ -44,7 +43,6 @@ public class AuthController {
             )
     })
     public ResponseEntity<JwtResponseDto> createToken(@RequestBody @Valid LoginRequestDto loginRequestDto) {
-        log.info(passwordEncoder.encode("q1w2e3"));
         JwtResponseDto jwtResponseDto = authService.createAuthToken(loginRequestDto);
         return ResponseEntity.ok(jwtResponseDto);
     }
