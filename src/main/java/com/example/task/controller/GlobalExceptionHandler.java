@@ -41,4 +41,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<AppErrorDto> handleEmailAlreadyExistException(EntityAlreadyExistException entityAlreadyExistException) {
         return new ResponseEntity<>(new AppErrorDto(entityAlreadyExistException.getMessage(),400), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DeletingException.class)
+    public ResponseEntity<AppErrorDto> handleDeletingException(DeletingException deletingException) {
+        return new ResponseEntity<>(new AppErrorDto(deletingException.getMessage(),400), HttpStatus.BAD_REQUEST);
+    }
 }

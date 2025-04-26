@@ -3,6 +3,7 @@ package com.example.task.service.Impl;
 import com.example.task.dto.request.CreateEmailRequestDto;
 import com.example.task.dto.request.DeleteEmailRequestDto;
 import com.example.task.dto.request.ReplaceEmailRequestDto;
+import com.example.task.exception.DeletingException;
 import com.example.task.exception.EmailAlreadyExistException;
 import com.example.task.exception.EmailNotFoundException;
 import com.example.task.exception.UserNotFoundException;
@@ -38,7 +39,7 @@ public class EmailServiceImpl implements EmailService {
             throw new EmailAlreadyExistException(String.format("Email %s already exist in your account", email));
         }
 
-        if(emailDataRepository.existsByEmail(email)) {
+        if (emailDataRepository.existsByEmail(email)) {
             log.error("Email {} already exist", email);
             throw new EmailAlreadyExistException(String.format("Email %s already exist", email));
         }
@@ -59,6 +60,11 @@ public class EmailServiceImpl implements EmailService {
             throw new EmailNotFoundException(String.format("Email %s was not found", email));
         });
 
+        if (emailData.getUser().getEmailData().size() == 1) {
+            log.error("Impossible delete the last email {}", email);
+            throw new DeletingException(String.format("Impossible delete the last email %s", email));
+        }
+
         emailDataRepository.delete(emailData);
         log.info("Email {} was successfully deleted", email);
 
@@ -76,7 +82,7 @@ public class EmailServiceImpl implements EmailService {
             throw new EmailNotFoundException(String.format("Old email %s was not found", oldEmail));
         });
 
-        if(emailDataRepository.existsByEmail(newEmail)) {
+        if (emailDataRepository.existsByEmail(newEmail)) {
             log.error("New email {} already exist", newEmail);
             throw new EmailAlreadyExistException(String.format("New email %s already exist", newEmail));
         }

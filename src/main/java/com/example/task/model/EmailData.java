@@ -4,17 +4,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "email_data")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EmailData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_data_id_seq")
     @SequenceGenerator(name = "email_data_id_seq", sequenceName = "email_data_id_seq", allocationSize = 1)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false, unique = true)

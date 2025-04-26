@@ -37,7 +37,7 @@ public class EmailController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
+    @PutMapping
     public ResponseEntity<Void> changeEmail(
             HttpServletRequest request,
             @Valid @RequestBody ReplaceEmailRequestDto replaceEmailRequestDto) {

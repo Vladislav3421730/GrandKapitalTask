@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/v1/phone")
+@RequestMapping("/api/v1/phone")
 @RequiredArgsConstructor
 public class PhoneController {
 
@@ -35,7 +35,7 @@ public class PhoneController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
+    @PutMapping
     public ResponseEntity<Void> changePhone(
             HttpServletRequest request,
             @Valid @RequestBody ReplacePhoneRequestDto replacePhoneRequestDto) {
