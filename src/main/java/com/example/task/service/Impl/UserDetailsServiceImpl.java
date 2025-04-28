@@ -1,4 +1,4 @@
-package com.example.task.service;
+package com.example.task.service.Impl;
 
 import com.example.task.model.User;
 import com.example.task.repository.UserRepository;
