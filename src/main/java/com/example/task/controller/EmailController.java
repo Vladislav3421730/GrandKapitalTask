@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Email Controller", description = "Handles operations related to user's emails: create, delete, update")
 @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Operation was successful"),
-        @ApiResponse(responseCode = "204", description = "Operation was successful"),
         @ApiResponse(
                 responseCode = "404",
                 description = "Data not found",
@@ -50,6 +48,7 @@ public class EmailController {
 
     @PostMapping
     @Operation(summary = "Create Email", description = "Creates a new email for the authenticated user")
+    @ApiResponse(responseCode = "201", description = "Operation was successful")
     public ResponseEntity<Void> createEmail(
             HttpServletRequest request,
             @Valid @RequestBody CreateEmailRequestDto createEmailRequestDto) {
@@ -60,6 +59,7 @@ public class EmailController {
 
     @DeleteMapping
     @Operation(summary = "Delete Email", description = "Deletes an existing email for the authenticated user")
+    @ApiResponse(responseCode = "204", description = "Operation was successful")
     public ResponseEntity<Void> deleteEmail(
             HttpServletRequest request,
             @Valid @RequestBody DeleteEmailRequestDto deleteEmailRequestDto) {
@@ -70,6 +70,7 @@ public class EmailController {
 
     @PutMapping
     @Operation(summary = "Change Email", description = "Replaces an existing email with a new one for the authenticated user")
+    @ApiResponse(responseCode = "204", description = "Operation was successful")
     public ResponseEntity<Void> changeEmail(
             HttpServletRequest request,
             @Valid @RequestBody ReplaceEmailRequestDto replaceEmailRequestDto) {

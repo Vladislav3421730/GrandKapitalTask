@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Phone Controller", description = "Handles operations related to user's phones: create, delete, update")
 @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Operation was successful"),
-        @ApiResponse(responseCode = "204", description = "Operation was successful"),
         @ApiResponse(
                 responseCode = "404",
                 description = "Data not found",
@@ -50,6 +48,7 @@ public class PhoneController {
 
     @PostMapping
     @Operation(summary = "Create Phone", description = "Creates a new phone for the authenticated user")
+    @ApiResponse(responseCode = "201", description = "Operation was successful")
     public ResponseEntity<Void> createPhone(
             HttpServletRequest request,
             @Valid @RequestBody CreatePhoneRequestDto createPhoneRequestDto) {
@@ -60,6 +59,7 @@ public class PhoneController {
 
     @DeleteMapping
     @Operation(summary = "Delete Phone", description = "Deletes an existing phone for the authenticated user")
+    @ApiResponse(responseCode = "204", description = "Operation was successful")
     public ResponseEntity<Void> deletePhone(
             HttpServletRequest request,
             @Valid @RequestBody DeletePhoneRequestDto deletePhoneRequestDto) {
@@ -70,6 +70,7 @@ public class PhoneController {
 
     @PutMapping
     @Operation(summary = "Change Phone", description = "Replaces an existing phone with a new one for the authenticated user")
+    @ApiResponse(responseCode = "204", description = "Operation was successful")
     public ResponseEntity<Void> changePhone(
             HttpServletRequest request,
             @Valid @RequestBody ReplacePhoneRequestDto replacePhoneRequestDto) {

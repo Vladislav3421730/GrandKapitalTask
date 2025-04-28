@@ -66,12 +66,17 @@ public class EmailServiceImpl implements EmailService {
 
         String email = deleteEmailRequestDto.getEmail();
 
+        User user = userRepository.findById(userId).orElseThrow(() -> {
+            log.error("User with id {} wasn't found", userId);
+            throw new UserNotFoundException(String.format("user with id %d wasn't found", userId));
+        });
+
         EmailData emailData = emailDataRepository.findByUserIdAndEmail(userId, email).orElseThrow(() -> {
             log.error("Email {} was not found", email);
             throw new EmailNotFoundException(String.format("Email %s was not found", email));
         });
 
-        if (emailData.getUser().getEmailData().size() == 1) {
+        if (user.getEmailData().size() == 1) {
             log.error("Impossible delete the last email {}", email);
             throw new DeletingException(String.format("Impossible delete the last email %s", email));
         }
