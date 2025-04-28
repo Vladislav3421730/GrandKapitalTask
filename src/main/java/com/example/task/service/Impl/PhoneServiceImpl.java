@@ -31,7 +31,7 @@ public class PhoneServiceImpl implements PhoneService {
     @Override
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "user", key = "#userId"),
+            @CacheEvict(value = "user", key = "#id"),
             @CacheEvict(value = "users", allEntries = true)
     })
     public void save(Long id, CreatePhoneRequestDto createPhoneRequestDto) {
@@ -58,7 +58,10 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"user", "users"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "user", key = "#userId"),
+            @CacheEvict(value = "users", allEntries = true)
+    })
     public void delete(Long userId, DeletePhoneRequestDto deleteEmailRequestDto) {
 
         String phone = deleteEmailRequestDto.getPhone();

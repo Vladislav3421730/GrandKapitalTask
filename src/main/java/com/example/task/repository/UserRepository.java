@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     @Query("SELECT u FROM User u JOIN u.emailData e WHERE e.email = :email")
+    @EntityGraph(attributePaths = {"account", "phoneData", "emailData"})
     Optional<User> findByEmail(@Param("email") String email);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

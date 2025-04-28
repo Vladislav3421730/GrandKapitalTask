@@ -30,9 +30,8 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Transactional
-    @CachePut(value = "users")
     @Caching(evict = {
-            @CacheEvict(value = "user", key = "#userId"),
+            @CacheEvict(value = "user", key = "#id"),
             @CacheEvict(value = "users", allEntries = true)
     })
     public void save(Long id, CreateEmailRequestDto createEmailRequestDto) {
@@ -59,8 +58,10 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Transactional
-    @CachePut(value = "delete")
-    @CacheEvict(value = {"user", "users"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "user", key = "#userId"),
+            @CacheEvict(value = "users", allEntries = true)
+    })
     public void delete(Long userId, DeleteEmailRequestDto deleteEmailRequestDto) {
 
         String email = deleteEmailRequestDto.getEmail();
